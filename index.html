@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="generator" content="pandoc">
   <meta name="author" content="Jed Rembold and Eric Roberts">
-  <title>Title</title>
+  <title>Section 11: The Enigma Project</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -36,16 +36,50 @@
     <div class="slides">
 
 <section id="title-slide">
-  <h1 class="title">Title</h1>
+  <h1 class="title">Section 11: The Enigma Project</h1>
   <p class="author">Jed Rembold and Eric Roberts</p>
-  <p class="date">Date</p>
+  <p class="date">Week of November 13th</p>
 </section>
 
 <section id="problem-1" class="slide level2">
 <h2>Problem 1</h2>
 <ul>
-<li>Is here!</li>
+<li>In our experience, one of the most difficult parts of the Enigma
+assignment is understanding how the rotors implement the translation
+<ul>
+<li>Difficult because of translating the 3D rotors into 2D diagrams</li>
+<li>Difficult because the rotors turn</li>
+</ul></li>
+<li>The next slide animates the process of advancing the rotor in both
+the circular view of the rotor (from the side) and the unrolled view of
+the rotor as a strip.
+<ul>
+<li>As the rotor advances, you will see connections in the unrolled view
+vanish off the top and reappear at the bottom</li>
+</ul></li>
 </ul>
+</section>
+<section id="visualizing-enigmas-rotors" class="slide level2"
+data-state="RotorDemo">
+<h2 data-state="RotorDemo">Visualizing Enigma’s Rotors</h2>
+<div id="RotorDemo">
+<canvas contenteditable="true" width="1485" height="810" style="border: none; overflow: hidden; outline-width: 0px; width: 1485px; height: 810px;">
+</canvas>
+</div>
+<td style="text-align:center;">
+<table class="CTControlStrip">
+<tbody style="border:none;">
+<tr>
+<td>
+<img id="RotorDemoStepInButton" class="CTButton" src="images/js_pieces/StepInControl.png" alt="StepInButton" width="70px">
+</td>
+<td>
+<img id="RotorDemoResetButton" class="CTButton" src="images/js_pieces/ResetControl.png" alt="ResetButton" width="70px">
+</td>
+</tr>
+</tbody>
+</table>
+</td>
 </section>
     </div>
   </div>
@@ -64,10 +98,18 @@
   <!--<script src="./js/revealjs/../other_plugins/reveald3/reveald3.js"></script>,-->
   <script src="./js/revealjs/plugin/math/math.js"></script>
   <script src="./js/revealjs/plugin/highlight/highlight.js"></script>
+  <script src="./js/revealjs/../python_language.js"></script>
+
+  // Font Awesome Characters
+  <script src="https://kit.fontawesome.com/4bc05635b0.js" crossorigin="anonymous"></script>
 
   // Code Tracing
   <script src="./js/revealjs/../codetrace.js"></script>
+  // JSGraphics
+  <script src="./js/revealjs/../JSGraphics.js"></script>
 
+    <script src="./js/revealjs/../RotorDemo.js"></script>
+  
   <script>
 
       // Full list of configuration options available at:
@@ -176,6 +218,11 @@
 		  <!--},-->
 		  CommonHTML: {scale: 80},
 		},
+          highlight: {
+            beforeHighlight: hljs => hljs.registerLanguage("mypython", function(hljs) {
+              console.log(mypythondef);
+              return mypythondef(hljs); } )
+          },
         // reveal.js plugins
         plugins: [
 		  RevealMath,
@@ -213,6 +260,20 @@
             // { src: "./js/revealjs/plugin/title-footer/title-footer.js", async: true, callback: function() { title_footer.initialize({css:"./js/revealjs/plugin/title-footer/title-footer.css"}); } },
 		],
       });
-    </script>
+                        Reveal.addEventListener("RotorDemo", RotorDemo)
+              
+          </script>
+  <script>
+  // This is admitedly a very hacky way to achieve my pseudo code highlighting, but it works?
+    function remove_bars() {
+      var pseudoBlocks = document.getElementsByClassName("hljs-pseudo");
+      console.log(pseudoBlocks);
+      for ( var i = 0; i < pseudoBlocks.length; i++) {
+        pseudoBlocks[i].innerHTML = pseudoBlocks[i].innerHTML.replaceAll("\|\|\|", "");
+      }
+      }
+    // omg this is even more hacky now, but I need this to run after hljs has done its thing
+    setTimeout(remove_bars, 100);
+  </script>
     </body>
 </html>

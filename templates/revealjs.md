@@ -109,10 +109,17 @@ $endif$
 
   // Code Tracing
   <script src="$revealjs-url$/../codetrace.js"></script>
+  // JSGraphics
+  <script src="$revealjs-url$/../JSGraphics.js"></script>
 
 $for(tracejs)$
   <script src="$tracejs$Trace.js"></script>
 $endfor$
+$if(js)$
+  $for(js)$
+  <script src="$revealjs-url$/../$js$.js"></script>
+  $endfor$
+$endif$
 
   <script>
 
@@ -426,9 +433,15 @@ $endif$
             // { src: "$revealjs-url$/plugin/title-footer/title-footer.js", async: true, callback: function() { title_footer.initialize({css:"$revealjs-url$/plugin/title-footer/title-footer.css"}); } },
 		],
       });
-$for(tracejs)$
-  Reveal.addEventListener("$tracejs$Trace", $tracejs$Demo);
-$endfor$
+      $if(js)$
+        $for(js)$
+          Reveal.addEventListener("$js$", $js$)
+        $endfor$
+      $endif$
+
+      $for(tracejs)$
+        Reveal.addEventListener("$tracejs$Trace", $tracejs$Demo);
+      $endfor$
     </script>
   <script>
   // This is admitedly a very hacky way to achieve my pseudo code highlighting, but it works?
