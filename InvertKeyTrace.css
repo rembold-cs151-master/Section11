@@ -1,0 +1,57 @@
+#InvertKeyTable {
+    margin: auto;
+    border-collapse: collapse;
+    padding: 0px;
+    border-spacing: 0px;
+}
+
+.reveal #InvertKeyTable > tbody > tr > td {
+    padding: 0px;
+}
+
+#InvertKeyTable #InvertKeyTrace .CodeTrace {
+    width: 1500px;
+    height: 500px;
+    padding-right: 5px;
+    margin-top: 0em;
+    margin-bottom: 0.7em;
+    font: 0.85em 'Menlo','Courier New',monospace;
+}
+
+#InvertKeyTable #InvertKeyBanner {
+    width: 1505px;
+    height: 1.6em;
+    vertical-align: middle;
+    margin: 0px;
+    padding: 0px;
+    overflow: hidden;
+    border-top-right-radius: 13px;
+    border-top-left-radius: 13px;
+    background-color: #75715E;
+    color: black;
+    border: none;
+    font: bold 0.65em 'Lucida Grande',sans-serif;
+    text-align: center;
+}
+
+#InvertKeyConsole {
+    width: 1500px;
+    height: 150px;
+    background-color: #1B1C18;
+    margin: 0px;
+    overflow: hidden;
+    font: 0.75em 'Menlo','Courier New','Courier',monospace;
+    color: #F8F8F2;
+    padding-left: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.reveal #InvertKeyTable CTControlStrip {
+    margin-top: 0.4em;
+}
+
+.reveal #InvertKeyBanner {
+    margin-top: 1em;
+}
+
