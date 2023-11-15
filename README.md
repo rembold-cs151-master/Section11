@@ -1,2 +1,2 @@
-# section_template
-A template file for generating slides and content for a section meeting
+# Section 11
+Section materials for the Enigma Project week.
