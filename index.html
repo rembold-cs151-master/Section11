@@ -37,6 +37,11 @@
   <h1 class="title">Section 11: The Enigma Project</h1>
   <p class="author">Jed Rembold and Eric Roberts</p>
   <p class="date">Week of November 13th</p>
+<div class="titlelinks">
+<a title="Template Repo" href="https://github.com/rembold-cs151-master/Section11"><i class="fa-solid fa-folder-tree"></i></a>
+<a title="Template Zip"  href="https://github.com/rembold-cs151-master/Section11/zipball/master/"><i class="fa-solid fa-file-zipper"></i></a>
+<a title="Questions"     href="https://github.com/rembold-cs151-master/Section11/raw/main/SectionQuestions.pdf"><i class="fa-solid fa-file-pdf"></i></a>
+</div>
 </section>
 
 <section id="problem-1" class="slide level2">
@@ -70,10 +75,10 @@ data-state="RotorDemo">
 <tbody style="border:none;">
 <tr>
 <td>
-<img id="RotorDemoStepInButton" class="CTButton" src="images/js_pieces/StepInControl.png" alt="StepInButton" width="70px">
+<img id="RotorDemoStepInButton" class="CTButton" src="images/StepInControl.png" alt="StepInButton" width="20px">
 </td>
 <td>
-<img id="RotorDemoResetButton" class="CTButton" src="images/js_pieces/ResetControl.png" alt="ResetButton" width="70px">
+<img id="RotorDemoResetButton" class="CTButton" src="images/ResetControl.png" alt="ResetButton" width="20px">
 </td>
 </tr>
 </tbody>
@@ -115,10 +120,6 @@ Answer: 25 (<span class="hb">Z</span>)
 </li>
 </ul>
 </li>
-<li class="fragment" data-fragment-index="4">
-These examples are all included in the unit test for the <span
-class="mb">Rotor</span> class later in these slides.
-</li>
 </ul>
 </td>
 <td style="vertical-align:top; width:300px;">
@@ -158,7 +159,7 @@ can use the same examples from the previous slide.</li>
 <li>One possible, though not the only, solution might look like
 this:</li>
 </ul>
-<pre ><code class="mypython" style="max-height:850px; font-size:.75em">def apply_permutation(index, permutation, offset):
+<pre ><code class="mypython" style="max-height:800px; font-size:.75em">def apply_permutation(index, permutation, offset):
     """
     Translates the index of a character by applying both a permutation
     and a cyclic offset.  The index argument is the position at which
@@ -193,7 +194,7 @@ different keys: one to encrypt the message and one to decrypt it</li>
 an argument and returns the corresponding decryption key
 <ul>
 <li>The process is described in more detail in the Enigma guide or in
-the textbook (pg 255 or 260 in the PDF, Exercise 15)</li>
+accompanying Section 11 PDF</li>
 </ul></li>
 </ul>
 </section>
@@ -252,7 +253,7 @@ Console
 <ul>
 <li>One possible solution with a unit test might look like:</li>
 </ul>
-<pre ><code class="mypython" style="max-height: 850px; font-size: .75em">
+<pre ><code class="mypython" style="max-height: 800px; font-size: .75em">
 ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
 def invert_key(key):

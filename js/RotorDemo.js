@@ -169,22 +169,22 @@ function RotorDemo() {
         button.addEventListener("click", action);
 
         function mouseenterAction(e) {
-            button.src = "images/js_pieces/" + name + "Rollover.png";
+            button.src = "images/" + name + "Rollover.png";
             e.stopPropagation();
         }
 
         function mouseleaveAction(e) {
-            button.src = "images/js_pieces/" + name + "Control.png";
+            button.src = "images/" + name + "Control.png";
             e.stopPropagation();
         }
 
         function mousedownAction(e) {
-            button.src = "images/js_pieces/" + name + "Pressed.png";
+            button.src = "images/" + name + "Pressed.png";
             e.stopPropagation();
         }
 
         function mouseupAction(e) {
-            button.src = "images/js_pieces/" + name + "Rollover.png";
+            button.src = "images/" + name + "Rollover.png";
             e.stopPropagation();
         }
 

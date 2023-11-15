@@ -17,6 +17,7 @@ js:
   - RotorQuestions
 tracejs:
   - InvertKey
+content_url: https://github.com/rembold-cs151-master/Section11
 ---
 
 
@@ -38,10 +39,10 @@ tracejs:
         <tbody style="border:none;">
             <tr>
                 <td>
-                    <img id="RotorDemoStepInButton" class="CTButton" src="images/js_pieces/StepInControl.png" alt="StepInButton" width="70px">
+                    <img id="RotorDemoStepInButton" class="CTButton" src="images/StepInControl.png" alt="StepInButton" width="20px">
                 </td>
                 <td>
-                    <img id="RotorDemoResetButton" class="CTButton" src="images/js_pieces/ResetControl.png" alt="ResetButton" width="70px">
+                    <img id="RotorDemoResetButton" class="CTButton" src="images/ResetControl.png" alt="ResetButton" width="20px">
                 </td>
             </tr>
         </tbody>
@@ -77,9 +78,6 @@ the following questions:
 >Answer: 25 (<span class="hb">Z</span>)</p></li>
 </ul></li>
 
-<li class="fragment" data-fragment-index=4
->These examples are all included in the unit test for the
-<span class="mb">Rotor</span> class later in these slides.</li>
 </ul>
 </td>
 <td style="vertical-align:top; width:300px;">
@@ -108,7 +106,7 @@ the following questions:
 ## Solution: Problem 2
 - One possible, though not the only, solution might look like this:
 
-```{.mypython style='max-height:850px; font-size:.75em'}
+```{.mypython style='max-height:800px; font-size:.75em'}
 def apply_permutation(index, permutation, offset):
     """
     Translates the index of a character by applying both a permutation
@@ -138,7 +136,7 @@ if __name__ == "__main__":
 ## Problem 3
 - Letters-substitution ciphers require the sender and receiver to use different keys: one to encrypt the message and one to decrypt it
 - Here you task is to write a function `invert_key` that takes an encryption key as an argument and returns the corresponding decryption key
-  - The process is described in more detail in the Enigma guide or in the textbook (pg 255 or 260 in the PDF, Exercise 15)
+  - The process is described in more detail in the Enigma guide or in accompanying Section 11 PDF
 
 
 ## Problem 3 Trace {data-state="InvertKeyTrace"}
@@ -176,7 +174,7 @@ if __name__ == "__main__":
 
 ## Problem 3 Solution
 - One possible solution with a unit test might look like:
-```{.mypython style='max-height: 850px; font-size: .75em'}
+```{.mypython style='max-height: 800px; font-size: .75em'}
 
 ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
