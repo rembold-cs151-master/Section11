@@ -1,7 +1,7 @@
 ---
 title: "Section 11: The Enigma Project"
 author: Jed Rembold and Eric Roberts
-date: "Week of November 13th"
+date: "Week of November 11th"
 slideNumber: true
 theme: monokai
 highlightjs-theme: monokai
@@ -115,8 +115,10 @@ def apply_permutation(index, permutation, offset):
     applying both transformations.
     """
     shifted = (index + offset) % 26
-    target = ord(permutation[shifted]) - ord("A")
-    return (target + 26 - offset) % 26
+    wired_letter = permutation[shifted]
+    target = ord(wired_letter) - ord("A")
+    # target = ALPHABET.find(wired_letter) can also work if imported
+    return (target - offset) % 26
 
 # Unit test
 
@@ -138,6 +140,39 @@ if __name__ == "__main__":
 - Here you task is to write a function `invert_key` that takes an encryption key as an argument and returns the corresponding decryption key
   - The process is described in more detail in the Enigma guide or in accompanying Section 11 PDF
 
+## Problem 3 Solution
+- One possible solution with some tests might look like:
+```{.mypython style='max-height: 800px; font-size: .75em'}
+
+ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+
+def invert_key(key):
+    """Inverts a 26-letter key for a letter-substitution cipher.
+    Args:
+        key (str): the 26-letter encryption string
+    Returns:
+        (str): the corresponding 26-letter decryption string
+    """
+    newkey = ""
+    for ch in ALPHABET:
+        newkey += ALPHABET[key.find(ch)]
+    return newkey
+
+# Unit test
+
+def test_invert_key():
+    """Tests several encryption and resulting decryption strings"""
+    assert invert_key(ALPHABET) == ALPHABET
+    en_key = "QWERTYUIOPASDFGHJKLZXCVBNM"
+    de_key = "KXVMCNOPHQRSZYIJADLEGWBUFT"
+    assert invert_key(en_key) == de_key
+    assert invert_key(de_key) == en_key
+
+# Startup code
+
+if __name__ == "__main__":
+    test_invert_key()
+```
 
 ## Problem 3 Trace {data-state="InvertKeyTrace"}
 <table id="InvertKeyTable">
@@ -172,36 +207,3 @@ if __name__ == "__main__":
 </table>
 
 
-## Problem 3 Solution
-- One possible solution with a unit test might look like:
-```{.mypython style='max-height: 800px; font-size: .75em'}
-
-ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-
-def invert_key(key):
-    """Inverts a 26-letter key for a letter-substitution cipher.
-    Args:
-        key (str): the 26-letter encryption string
-    Returns:
-        (str): the corresponding 26-letter decryption string
-    """
-    newkey = ""
-    for ch in ALPHABET:
-        newkey += ALPHABET[key.find(ch)]
-    return newkey
-
-# Unit test
-
-def test_invert_key():
-    """Tests several encryption and resulting decryption strings"""
-    assert invert_key(ALPHABET) == ALPHABET
-    en_key = "QWERTYUIOPASDFGHJKLZXCVBNM"
-    de_key = "KXVMCNOPHQRSZYIJADLEGWBUFT"
-    assert invert_key(en_key) == de_key
-    assert invert_key(de_key) == en_key
-
-# Startup code
-
-if __name__ == "__main__":
-    test_invert_key()
-```

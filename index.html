@@ -16,8 +16,11 @@
     div.columns{display: flex; gap: min(4vw, 1.5em);}
     div.column{flex: auto; overflow-x: auto;}
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-    ul.task-list{list-style: none;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
     ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
       width: 0.8em;
       margin: 0 0.8em 0.2em -1.6em;
       vertical-align: middle;
@@ -36,7 +39,7 @@
 <section id="title-slide">
   <h1 class="title">Section 11: The Enigma Project</h1>
   <p class="author">Jed Rembold and Eric Roberts</p>
-  <p class="date">Week of November 13th</p>
+  <p class="date">Week of November 11th</p>
 <div class="titlelinks">
 <a title="Template Repo" href="https://github.com/rembold-cs151-master/Section11"><i class="fa-solid fa-folder-tree"></i></a>
 <a title="Template Zip"  href="https://github.com/rembold-cs151-master/Section11/zipball/master/"><i class="fa-solid fa-file-zipper"></i></a>
@@ -167,8 +170,10 @@ this:</li>
     applying both transformations.
     """
     shifted = (index + offset) % 26
-    target = ord(permutation[shifted]) - ord("A")
-    return (target + 26 - offset) % 26
+    wired_letter = permutation[shifted]
+    target = ord(wired_letter) - ord("A")
+    # target = ALPHABET.find(wired_letter) can also work if imported
+    return (target - offset) % 26
 
 # Unit test
 
@@ -197,6 +202,41 @@ an argument and returns the corresponding decryption key
 accompanying Section 11 PDF</li>
 </ul></li>
 </ul>
+</section>
+<section id="problem-3-solution" class="slide level2">
+<h2>Problem 3 Solution</h2>
+<ul>
+<li>One possible solution with some tests might look like:</li>
+</ul>
+<pre ><code class="mypython" style="max-height: 800px; font-size: .75em">
+ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+
+def invert_key(key):
+    """Inverts a 26-letter key for a letter-substitution cipher.
+    Args:
+        key (str): the 26-letter encryption string
+    Returns:
+        (str): the corresponding 26-letter decryption string
+    """
+    newkey = ""
+    for ch in ALPHABET:
+        newkey += ALPHABET[key.find(ch)]
+    return newkey
+
+# Unit test
+
+def test_invert_key():
+    """Tests several encryption and resulting decryption strings"""
+    assert invert_key(ALPHABET) == ALPHABET
+    en_key = "QWERTYUIOPASDFGHJKLZXCVBNM"
+    de_key = "KXVMCNOPHQRSZYIJADLEGWBUFT"
+    assert invert_key(en_key) == de_key
+    assert invert_key(de_key) == en_key
+
+# Startup code
+
+if __name__ == "__main__":
+    test_invert_key()</code></pre>
 </section>
 <section id="problem-3-trace" class="slide level2"
 data-state="InvertKeyTrace">
@@ -247,41 +287,6 @@ Console
 </td>
 </tr>
 </table>
-</section>
-<section id="problem-3-solution" class="slide level2">
-<h2>Problem 3 Solution</h2>
-<ul>
-<li>One possible solution with a unit test might look like:</li>
-</ul>
-<pre ><code class="mypython" style="max-height: 800px; font-size: .75em">
-ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-
-def invert_key(key):
-    """Inverts a 26-letter key for a letter-substitution cipher.
-    Args:
-        key (str): the 26-letter encryption string
-    Returns:
-        (str): the corresponding 26-letter decryption string
-    """
-    newkey = ""
-    for ch in ALPHABET:
-        newkey += ALPHABET[key.find(ch)]
-    return newkey
-
-# Unit test
-
-def test_invert_key():
-    """Tests several encryption and resulting decryption strings"""
-    assert invert_key(ALPHABET) == ALPHABET
-    en_key = "QWERTYUIOPASDFGHJKLZXCVBNM"
-    de_key = "KXVMCNOPHQRSZYIJADLEGWBUFT"
-    assert invert_key(en_key) == de_key
-    assert invert_key(de_key) == en_key
-
-# Startup code
-
-if __name__ == "__main__":
-    test_invert_key()</code></pre>
 </section>
     </div>
   </div>
