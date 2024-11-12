@@ -97,6 +97,7 @@ the following questions:
       |||Use that new index to look up the corresponding letter in the permutation string.|||
       |||Convert that letter to a number corresponding to its location in the alphabet.|||
       |||Shift this number back by the offset, wrapping if necessary.|||
+      |||Return the resulting number, which is a new index|||
   ```
 - Your task here is to:
   - Convert the above into Python code
@@ -105,74 +106,73 @@ the following questions:
 
 ## Solution: Problem 2
 - One possible, though not the only, solution might look like this:
-
-```{.mypython style='max-height:800px; font-size:.75em'}
-def apply_permutation(index, permutation, offset):
-    """
-    Translates the index of a character by applying both a permutation
-    and a cyclic offset.  The index argument is the position at which
-    the process starts and the method returns the new index after
-    applying both transformations.
-    """
-    shifted = (index + offset) % 26
-    wired_letter = permutation[shifted]
-    target = ord(wired_letter) - ord("A")
-    # target = ALPHABET.find(wired_letter) can also work if imported
-    return (target - offset) % 26
-
-# Unit test
-
-def test_apply_permutation():
-    ROTOR = "EKMFLGDQVZNTOWYHXUSPAIBRCJ"
-    assert apply_permutation(0, ROTOR, 0) == 4
-    assert apply_permutation(1, ROTOR, 0) == 10
-    assert apply_permutation(9, ROTOR, 1) == 12
-    assert apply_permutation(2, ROTOR, 4) == 25
-
-# Startup code
-
-if __name__ == "__main__":
-    test_apply_permutation()
-```
+  ```{.mypython style='max-height:800px; font-size:.75em'}
+  def apply_permutation(index, permutation, offset):
+      """
+      Translates the index of a character by applying both a 
+      permutation and a cyclic offset.  The index argument is 
+      the position at which the process starts and the method 
+      returns the new index after applying both transformations.
+      """
+      shifted = (index + offset) % 26
+      wired_letter = permutation[shifted]
+      target = ord(wired_letter) - ord("A")
+      # target = ALPHABET.find(wired_letter) can also work if imported
+      return (target - offset) % 26
+  
+  # Unit test
+  
+  def test_apply_permutation():
+      ROTOR = "EKMFLGDQVZNTOWYHXUSPAIBRCJ"
+      assert apply_permutation(0, ROTOR, 0) == 4
+      assert apply_permutation(1, ROTOR, 0) == 10
+      assert apply_permutation(9, ROTOR, 1) == 12
+      assert apply_permutation(2, ROTOR, 4) == 25
+  
+  # Startup code
+  
+  if __name__ == "__main__":
+      test_apply_permutation()
+  ```
 
 ## Problem 3
 - Letters-substitution ciphers require the sender and receiver to use different keys: one to encrypt the message and one to decrypt it
 - Here you task is to write a function `invert_key` that takes an encryption key as an argument and returns the corresponding decryption key
-  - The process is described in more detail in the Enigma guide or in accompanying Section 11 PDF
+  - The process is described in more detail in the Enigma guide or in the PDF for this section
 
 ## Problem 3 Solution
 - One possible solution with some tests might look like:
-```{.mypython style='max-height: 800px; font-size: .75em'}
-
-ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-
-def invert_key(key):
-    """Inverts a 26-letter key for a letter-substitution cipher.
-    Args:
-        key (str): the 26-letter encryption string
-    Returns:
-        (str): the corresponding 26-letter decryption string
-    """
-    newkey = ""
-    for ch in ALPHABET:
-        newkey += ALPHABET[key.find(ch)]
-    return newkey
-
-# Unit test
-
-def test_invert_key():
-    """Tests several encryption and resulting decryption strings"""
-    assert invert_key(ALPHABET) == ALPHABET
-    en_key = "QWERTYUIOPASDFGHJKLZXCVBNM"
-    de_key = "KXVMCNOPHQRSZYIJADLEGWBUFT"
-    assert invert_key(en_key) == de_key
-    assert invert_key(de_key) == en_key
-
-# Startup code
-
-if __name__ == "__main__":
-    test_invert_key()
-```
+  ```{.mypython style='max-height: 800px; font-size: .75em'}
+  
+  ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+  
+  def invert_key(key):
+      """Inverts a 26-letter key for a letter-substitution cipher.
+      Args:
+          key (str): the 26-letter encryption string
+      Returns:
+          (str): the corresponding 26-letter decryption string
+      """
+      newkey = ""
+      for ch in ALPHABET:
+          newkey += ALPHABET[key.find(ch)]
+      return newkey
+  
+  # Unit test
+  
+  def test_invert_key():
+      """Tests several encryption and resulting decryption strings"""
+      assert invert_key(ALPHABET) == ALPHABET
+      en_key = "QWERTYUIOPASDFGHJKLZXCVBNM"
+      de_key = "KXVMCNOPHQRSZYIJADLEGWBUFT"
+      assert invert_key(en_key) == de_key
+      assert invert_key(de_key) == en_key
+  
+  # Startup code
+  
+  if __name__ == "__main__":
+      test_invert_key()
+  ```
 
 ## Problem 3 Trace {data-state="InvertKeyTrace"}
 <table id="InvertKeyTable">

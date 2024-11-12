@@ -146,7 +146,8 @@ that implements the following pseudocode:</p>
     |||Compute a new index by shifting the og index by the offset, wrapping if needed.|||
     |||Use that new index to look up the corresponding letter in the permutation string.|||
     |||Convert that letter to a number corresponding to its location in the alphabet.|||
-    |||Shift this number back by the offset, wrapping if necessary.|||</code></pre></li>
+    |||Shift this number back by the offset, wrapping if necessary.|||
+    |||Return the resulting number, which is a new index|||</code></pre></li>
 <li class="fragment"><p>Your task here is to:</p>
 <ul>
 <li class="fragment">Convert the above into Python code</li>
@@ -159,15 +160,14 @@ can use the same examples from the previous slide.</li>
 <section id="solution-problem-2" class="slide level2">
 <h2>Solution: Problem 2</h2>
 <ul>
-<li>One possible, though not the only, solution might look like
-this:</li>
-</ul>
+<li><p>One possible, though not the only, solution might look like
+this:</p>
 <pre ><code class="mypython" style="max-height:800px; font-size:.75em">def apply_permutation(index, permutation, offset):
     """
-    Translates the index of a character by applying both a permutation
-    and a cyclic offset.  The index argument is the position at which
-    the process starts and the method returns the new index after
-    applying both transformations.
+    Translates the index of a character by applying both a 
+    permutation and a cyclic offset.  The index argument is 
+    the position at which the process starts and the method 
+    returns the new index after applying both transformations.
     """
     shifted = (index + offset) % 26
     wired_letter = permutation[shifted]
@@ -187,7 +187,8 @@ def test_apply_permutation():
 # Startup code
 
 if __name__ == "__main__":
-    test_apply_permutation()</code></pre>
+    test_apply_permutation()</code></pre></li>
+</ul>
 </section>
 <section id="problem-3" class="slide level2">
 <h2>Problem 3</h2>
@@ -199,15 +200,14 @@ different keys: one to encrypt the message and one to decrypt it</li>
 an argument and returns the corresponding decryption key
 <ul>
 <li>The process is described in more detail in the Enigma guide or in
-accompanying Section 11 PDF</li>
+the PDF for this section</li>
 </ul></li>
 </ul>
 </section>
 <section id="problem-3-solution" class="slide level2">
 <h2>Problem 3 Solution</h2>
 <ul>
-<li>One possible solution with some tests might look like:</li>
-</ul>
+<li><p>One possible solution with some tests might look like:</p>
 <pre ><code class="mypython" style="max-height: 800px; font-size: .75em">
 ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
@@ -236,7 +236,8 @@ def test_invert_key():
 # Startup code
 
 if __name__ == "__main__":
-    test_invert_key()</code></pre>
+    test_invert_key()</code></pre></li>
+</ul>
 </section>
 <section id="problem-3-trace" class="slide level2"
 data-state="InvertKeyTrace">
