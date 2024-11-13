@@ -21,13 +21,20 @@ content_url: https://github.com/rembold-cs151-master/Section11
 ---
 
 
-## Problem 1
+## Understanding the Rotors
 - In our experience, one of the most difficult parts of the Enigma assignment is understanding how the rotors implement the translation
-  - Difficult visualization because of translating the 3D rotors into 2D diagrams
-  - Difficult because the rotors turn
-- The next slide animates the process of advancing the rotor in both the circular view of the rotor (from the side) and the unrolled view of the rotor as a strip.
-  - As the rotor advances, you will see connections in the unrolled view vanish off the top and reappear at the bottom
+  - Difficult to understand how a string of letters equates to internal wiring
+  - Difficult to visualize because of translating the 3D rotors into 2D diagrams
+  - Difficult to conceptualize because the rotors turn
+- The next few slides attempt to visualize and animate these concepts to help convey a better understanding
+    - You need to understand how the machine works before you can write code to simulate that behavior
+    - Ask questions! The better you can understand what is happening here, the easier it will be to write the necessary code
 
+
+## Permutation to Rotor
+- Before understanding the rotors, it helps to understand how the permutation string you are given corresponds to a given rotor's internal wiring
+
+![](./images/cipher_to_rotors.svg)
 
 
 ## Visualizing Enigma's Rotors {data-state="RotorDemo"}
@@ -89,8 +96,9 @@ the following questions:
 
 
 ## Question 2
-:::incremental
-- The Enigma project guide suggests that getting the rotor transformations to work is easier if you implement a top-level (not in a class) `apply_permutation` function that implements the following pseudocode:
+:::{.incremental style='font-size:.9em'}
+- The Enigma project guide suggests that getting the rotor transformations to work is easier if you implement a top-level (not in a class) `apply_permutation` function
+- With an understanding of how the previous problem worked, that function look like and achieve the following:
   ```{.mypython style='font-size:.8em'}
   def apply_permutation(index, permutation, offset):
       |||Compute a new index by shifting the og index by the offset, wrapping if needed.|||
@@ -100,7 +108,7 @@ the following questions:
   ```
 - Your task here is to:
   - Convert the above into Python code
-  - Write a small test function to ensure it works. You can use the same examples from the previous slide.
+  - Write a small test function to ensure it works correctly. You can use the same examples from the previous slide.
 :::
 
 ## Solution: Problem 2
@@ -114,11 +122,11 @@ def apply_permutation(index, permutation, offset):
     the process starts and the method returns the new index after
     applying both transformations.
     """
-    shifted = (index + offset) % 26
-    wired_letter = permutation[shifted]
-    target = ord(wired_letter) - ord("A")
-    # target = ALPHABET.find(wired_letter) can also work if imported
-    return (target - offset) % 26
+    shifted_idx = (index + offset) % 26
+    wired_letter = permutation[shifted_idx]
+    target_idx = ord(wired_letter) - ord("A")
+    #target_idx = ALPHABET.find(wired_letter) can also work if imported
+    return (target_idx - offset) % 26
 
 # Unit test
 
@@ -138,7 +146,8 @@ if __name__ == "__main__":
 ## Problem 3
 - Letters-substitution ciphers require the sender and receiver to use different keys: one to encrypt the message and one to decrypt it
 - Here you task is to write a function `invert_key` that takes an encryption key as an argument and returns the corresponding decryption key
-  - The process is described in more detail in the Enigma guide or in accompanying Section 11 PDF
+
+![](./images/invert_key.svg)
 
 ## Problem 3 Solution
 - One possible solution with some tests might look like:
