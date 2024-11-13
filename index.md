@@ -105,6 +105,7 @@ the following questions:
       |||Use that new index to look up the corresponding letter in the permutation string.|||
       |||Convert that letter to a number corresponding to its location in the alphabet.|||
       |||Shift this number back by the offset, wrapping if necessary.|||
+      |||Return the resulting number, which is a new index|||
   ```
 - Your task here is to:
   - Convert the above into Python code
@@ -151,37 +152,37 @@ if __name__ == "__main__":
 
 ## Problem 3 Solution
 - One possible solution with some tests might look like:
-```{.mypython style='max-height: 800px; font-size: .75em'}
-
-ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-
-def invert_key(key):
-    """Inverts a 26-letter key for a letter-substitution cipher.
-    Args:
-        key (str): the 26-letter encryption string
-    Returns:
-        (str): the corresponding 26-letter decryption string
-    """
-    newkey = ""
-    for ch in ALPHABET:
-        newkey += ALPHABET[key.find(ch)]
-    return newkey
-
-# Unit test
-
-def test_invert_key():
-    """Tests several encryption and resulting decryption strings"""
-    assert invert_key(ALPHABET) == ALPHABET
-    en_key = "QWERTYUIOPASDFGHJKLZXCVBNM"
-    de_key = "KXVMCNOPHQRSZYIJADLEGWBUFT"
-    assert invert_key(en_key) == de_key
-    assert invert_key(de_key) == en_key
-
-# Startup code
-
-if __name__ == "__main__":
-    test_invert_key()
-```
+  ```{.mypython style='max-height: 800px; font-size: .75em'}
+  
+  ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+  
+  def invert_key(key):
+      """Inverts a 26-letter key for a letter-substitution cipher.
+      Args:
+          key (str): the 26-letter encryption string
+      Returns:
+          (str): the corresponding 26-letter decryption string
+      """
+      newkey = ""
+      for ch in ALPHABET:
+          newkey += ALPHABET[key.find(ch)]
+      return newkey
+  
+  # Unit test
+  
+  def test_invert_key():
+      """Tests several encryption and resulting decryption strings"""
+      assert invert_key(ALPHABET) == ALPHABET
+      en_key = "QWERTYUIOPASDFGHJKLZXCVBNM"
+      de_key = "KXVMCNOPHQRSZYIJADLEGWBUFT"
+      assert invert_key(en_key) == de_key
+      assert invert_key(de_key) == en_key
+  
+  # Startup code
+  
+  if __name__ == "__main__":
+      test_invert_key()
+  ```
 
 ## Problem 3 Trace {data-state="InvertKeyTrace"}
 <table id="InvertKeyTable">

@@ -2001,7 +2001,8 @@ problem worked, that function look like and achieve the following:</p>
     |||Compute a new index by shifting the og index by the offset, wrapping if needed.|||
     |||Use that new index to look up the corresponding letter in the permutation string.|||
     |||Convert that letter to a number corresponding to its location in the alphabet.|||
-    |||Shift this number back by the offset, wrapping if necessary.|||</code></pre></li>
+    |||Shift this number back by the offset, wrapping if necessary.|||
+    |||Return the resulting number, which is a new index|||</code></pre></li>
 <li class="fragment"><p>Your task here is to:</p>
 <ul>
 <li class="fragment">Convert the above into Python code</li>
@@ -3010,8 +3011,7 @@ an argument and returns the corresponding decryption key</li>
 <section id="problem-3-solution" class="slide level2">
 <h2>Problem 3 Solution</h2>
 <ul>
-<li>One possible solution with some tests might look like:</li>
-</ul>
+<li><p>One possible solution with some tests might look like:</p>
 <pre ><code class="mypython" style="max-height: 800px; font-size: .75em">
 ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
@@ -3040,7 +3040,8 @@ def test_invert_key():
 # Startup code
 
 if __name__ == "__main__":
-    test_invert_key()</code></pre>
+    test_invert_key()</code></pre></li>
+</ul>
 </section>
 <section id="problem-3-trace" class="slide level2"
 data-state="InvertKeyTrace">
