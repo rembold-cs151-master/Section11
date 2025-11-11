@@ -1,7 +1,7 @@
 ---
 title: "Section 11: The Enigma Project"
 author: Jed Rembold and Eric Roberts
-date: "Week of November 11th"
+date: "Week of November 10th"
 slideNumber: true
 theme: monokai
 highlightjs-theme: monokai
@@ -96,21 +96,34 @@ the following questions:
 
 
 ## Question 2
-:::{.incremental style='font-size:.9em'}
+:::{.incremental style='font-size:1em'}
 - The Enigma project guide suggests that getting the rotor transformations to work is easier if you implement a top-level (not in a class) `apply_permutation` function
-- With an understanding of how the previous problem worked, that function look like and achieve the following:
+- Requires 3 arguments:
+  - `index`: The index of the letter being "input" into the rotor. So "A" would correspond to 0. B to 1, etc.
+  - `permutation`: The permutation string that defines the internal wiring of the rotor.
+  - `offset`: The current offset of the rotor. How many steps it has been rotated from its starting position.
+:::
+
+
+## A Pseudo Solution
+- With an understanding of how the previous problem was solved, this function should like and achieve the following:
   ```{.mypython style='font-size:.8em'}
   def apply_permutation(index, permutation, offset):
-      |||Compute a new index by shifting the og index by the offset, wrapping if needed.|||
-      |||Use that new index to look up the corresponding letter in the permutation string.|||
-      |||Convert that letter to a number corresponding to its location in the alphabet.|||
+      |||Compute a new index by shifting the og index forward by the offset, |||
+        |||wrapping if needed.|||
+      |||Use that new index to look up the corresponding letter in |||
+        |||the permutation string.|||
+      |||Convert that letter to a number corresponding to its location|||
+        |||in the alphabet.|||
       |||Shift this number back by the offset, wrapping if necessary.|||
       |||Return the resulting number, which is a new index|||
   ```
+
 - Your task here is to:
   - Convert the above into Python code
   - Write a small test function to ensure it works correctly. You can use the same examples from the previous slide.
-:::
+
+
 
 ## Solution: Problem 2
 - One possible, though not the only, solution might look like this:
