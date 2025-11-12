@@ -11,6 +11,9 @@
   <link rel="stylesheet" href="./js/revealjs/dist/reset.css">
   <link rel="stylesheet" href="./js/revealjs/dist/reveal.css">
   <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
     div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -1687,16 +1690,16 @@ starting position.</li>
 </section>
 <section id="a-pseudo-solution" class="slide level2">
 <h2>A Pseudo Solution</h2>
+<div style="font-size:.9em">
 <ul>
 <li><p>With an understanding of how the previous problem was solved,
 this function should like and achieve the following:</p>
 <pre ><code class="mypython" style="font-size:.8em">def apply_permutation(index, permutation, offset):
     |||Compute a new index by shifting the og index forward by the offset, |||
       |||wrapping if needed.|||
-    |||Use that new index to look up the corresponding letter in |||
-      |||the permutation string.|||
-    |||Convert that letter to a number corresponding to its location|||
-      |||in the alphabet.|||
+    |||Use that new index to look up the corresponding letter in the permutation|||
+      |||string.|||
+    |||Convert that letter to a number corresponding to its location in the alphabet.|||
     |||Shift this number back by the offset, wrapping if necessary.|||
     |||Return the resulting number, which is a new index|||</code></pre></li>
 <li><p>Your task here is to:</p>
@@ -1706,6 +1709,7 @@ this function should like and achieve the following:</p>
 use the same examples from the previous slide.</li>
 </ul></li>
 </ul>
+</div>
 </section>
 <section id="solution-problem-2" class="slide level2">
 <h2>Solution: Problem 2</h2>
