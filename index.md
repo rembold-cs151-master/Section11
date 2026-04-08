@@ -1,10 +1,10 @@
 ---
 title: "Section 11: The Enigma Project"
 author: Jed Rembold and Eric Roberts
-date: "Week of November 10th"
+date: "Week of April 6th"
 slideNumber: true
-theme: monokai
-highlightjs-theme: monokai
+theme: python_catppuccin
+highlightjs-theme: catppuccin-mocha
 width: 1920
 height: 1080
 transition: fade
@@ -22,19 +22,13 @@ content_url: https://github.com/rembold-cs151-master/Section11
 
 
 ## Understanding the Rotors
-- In our experience, one of the most difficult parts of the Enigma assignment is understanding how the rotors implement the translation
-  - Difficult to understand how a string of letters equates to internal wiring
-  - Difficult to visualize because of translating the 3D rotors into 2D diagrams
-  - Difficult to conceptualize because the rotors turn
+- In our experience, one of the most difficult parts of the Enigma project is understanding how we represent the internal wiring in each rotor.
+  - This semester, we are representing the internal wiring as a list of offsets, where each offset represents how far from the current contact the wire exits at
 - The next few slides attempt to visualize and animate these concepts to help convey a better understanding
     - You need to understand how the machine works before you can write code to simulate that behavior
     - Ask questions! The better you can understand what is happening here, the easier it will be to write the necessary code
 
 
-## Permutation to Rotor
-- Before understanding the rotors, it helps to understand how the permutation string you are given corresponds to a given rotor's internal wiring
-
-![](./images/cipher_to_rotors.svg)
 
 
 ## Visualizing Enigma's Rotors {data-state="RotorDemo"}
@@ -66,23 +60,23 @@ content_url: https://github.com/rembold-cs151-master/Section11
 the following questions:
 
 <ul>
-<li>With this offset, where does a signal go starting at position 1
+<li>With this progress, where does a signal go starting at position 1
 (<span class="hb">B</span>) on the right?
 
 <p class="fragment" id="RotorQuestion1" data-fragment-index=1
 >Answer: 10 (<span class="hb">K</span>)</p></li>
 
 <li class="fragment" data-fragment-index=1
->Once the rotor advances to offset 1, where does a signal starting at position 9 (<span class="hb">J</span>) go?
+>Once the rotor advances to progress 1, where does a signal starting at position 9 (<span class="hb">J</span>) go?
 
 <p class="fragment" id="RotorQuestion2" data-fragment-index=2
 >Answer: 12 (<span class="hb">M</span>)</p></li>
 
 <li class="fragment" data-fragment-index=2
->When the rotor advances to offset 4, where does a signal from position 2 (<span class="hb">C</span>) go?
+>When the rotor advances to progress 4, where does a signal from position 11 (<span class="hb">L</span>) go?
 
 <p class="fragment" data-fragment-index=3 id="RotorQuestion3" 
->Answer: 25 (<span class="hb">Z</span>)</p></li>
+>Answer: 29 % 26 = 3 (<span class="hb">D</span>)</p></li>
 </ul></li>
 
 </ul>
@@ -95,139 +89,105 @@ the following questions:
 </table>
 
 
-## Question 2
-:::{.incremental style='font-size:1em'}
-- The Enigma project guide suggests that getting the rotor transformations to work is easier if you implement a top-level (not in a class) `apply_permutation` function
-- Requires 3 arguments:
-  - `index`: The index of the letter being "input" into the rotor. So "A" would correspond to 0. B to 1, etc.
-  - `permutation`: The permutation string that defines the internal wiring of the rotor.
-  - `offset`: The current offset of the rotor. How many steps it has been rotated from its starting position.
-:::
+## Problem 2
+- Letters-substitution ciphers like those implemented by each rotor require the sender and receiver to use different keys: one to encrypt the message and one to decrypt it
+- Put differently, each incoming value follows a different wire depending on what direction it approaches from.
+- As such, it is necessary to be able to compute a list of reversed wiring offsets for signals traveling the other direction.
 
+## Problem 2 Visually
 
-## A Pseudo Solution
-:::{style='font-size:.9em'}
-- With an understanding of how the previous problem was solved, this function should like and achieve the following:
-  ```{.mypython style='font-size:.8em'}
-  def apply_permutation(index, permutation, offset):
-      |||Compute a new index by shifting the og index forward by the offset, |||
-        |||wrapping if needed.|||
-      |||Use that new index to look up the corresponding letter in the permutation|||
-        |||string.|||
-      |||Convert that letter to a number corresponding to its location in the alphabet.|||
-      |||Shift this number back by the offset, wrapping if necessary.|||
-      |||Return the resulting number, which is a new index|||
-  ```
+![](./images/invert_wiring.svg)
 
-- Your task here is to:
-  - Convert the above into Python code
-  - Write a small test function to ensure it works correctly. You can use the same examples from the previous slide.
-:::
-
-
-
-## Solution: Problem 2
-- One possible, though not the only, solution might look like this:
-
-```{.mypython style='max-height:800px; font-size:.75em'}
-def apply_permutation(index, permutation, offset):
-    """
-    Translates the index of a character by applying both a permutation
-    and a cyclic offset.  The index argument is the position at which
-    the process starts and the method returns the new index after
-    applying both transformations.
-    """
-    shifted_idx = (index + offset) % 26
-    wired_letter = permutation[shifted_idx]
-    target_idx = ord(wired_letter) - ord("A")
-    #target_idx = ALPHABET.find(wired_letter) can also work if imported
-    return (target_idx - offset) % 26
-
-# Unit test
-
-def test_apply_permutation():
-    ROTOR = "EKMFLGDQVZNTOWYHXUSPAIBRCJ"
-    assert apply_permutation(0, ROTOR, 0) == 4
-    assert apply_permutation(1, ROTOR, 0) == 10
-    assert apply_permutation(9, ROTOR, 1) == 12
-    assert apply_permutation(2, ROTOR, 4) == 25
-
-# Startup code
-
-if __name__ == "__main__":
-    test_apply_permutation()
-```
-
-## Problem 3
-- Letters-substitution ciphers require the sender and receiver to use different keys: one to encrypt the message and one to decrypt it
-- Here you task is to write a function `invert_key` that takes an encryption key as an argument and returns the corresponding decryption key
-
-![](./images/invert_key.svg)
-
-## Problem 3 Solution
+## Problem 2 Solution
 - One possible solution with some tests might look like:
-  ```{.mypython style='max-height: 800px; font-size: .75em'}
+  ```{.mypython style='max-height: 800px; font-size: .7em'}
   
-  ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-  
-  def invert_key(key):
-      """Inverts a 26-letter key for a letter-substitution cipher.
+  def invert_wiring_offsets(r2l_offsets):
+      """Inverts a list of wiring offsets for a rotor.
       Args:
-          key (str): the 26-letter encryption string
+          r2l_offsets (list[int]): the 26 element list of offsets for each contact
       Returns:
-          (str): the corresponding 26-letter decryption string
+          (list[int]): the corresponding 26-element reverse wiring offsets list
       """
-      newkey = ""
-      for ch in ALPHABET:
-          newkey += ALPHABET[key.find(ch)]
-      return newkey
+      rev_offsets = [0] * 26
+      for i in range(26):
+          rev_offsets[i] = 26 - r2l_offsets[i]
+      return rev_offsets
   
   # Unit test
   
-  def test_invert_key():
-      """Tests several encryption and resulting decryption strings"""
-      assert invert_key(ALPHABET) == ALPHABET
-      en_key = "QWERTYUIOPASDFGHJKLZXCVBNM"
-      de_key = "KXVMCNOPHQRSZYIJADLEGWBUFT"
+  def test_invert_wiring_offsets():
+      """Tests several R2L and resulting L2R wiring offset lists"""
+      assert invert_wiring_offsets(list(range(26))) == list(range(26))
+      wiring_offsets = [3,24,13,14,2,25,3,15,11,17,6,25,22,24,7,16,17,11,0,21,7,18,16,23,0,24]
+      rev_wiring_offsets = [23,2,13,12,24,1,23,11,15,9,20,1,4,2,19,10,9,15,26,5,19,8,10,3,26,2]
       assert invert_key(en_key) == de_key
       assert invert_key(de_key) == en_key
   
   # Startup code
   
   if __name__ == "__main__":
-      test_invert_key()
+      test_invert_wiring_offsets()
   ```
 
-## Problem 3 Trace {data-state="InvertKeyTrace"}
-<table id="InvertKeyTable">
-<tbody style="border:none;">
-<tr><td><div id="InvertKeyTrace" style="margin:0px;"></div></td></tr>
-<tr><td>
-<div id="InvertKeyBanner" style="margin:0px; padding:0px;">Console</div>
-</td></tr>
-<tr><td><div id="InvertKeyConsole"></div></td></tr>
-<tr>
-<td style="text-align:center;">
-<table class="CTControlStrip">
-<tbody>
-<tr>
-<td>
-<img id=InvertKeyTraceStepInButton
-     class="CTButton"
-     src="images/StepInControl.png"
-     alt="StepInButton" />
-</td>
-<td>
-<img id=InvertKeyTraceResetButton
-     class="CTButton"
-     src="images/ResetControl.png"
-     alt="ResetButton" />
-</td>
-</tr>
-</tbody>
-</table>
-</td>
-</tr>
-</table>
+## Problem 3
+- The Enigma Project follows the MCV Pattern
+- The _View_ and the _Controller_ are both provided, and you add code to the _Model_
+- The view and the controller need ways to "talk" to the model, which are provided with particularly named methods
+- For changes you make in your model to show up at all in the graphics, you need to make sure you implement or alter those methods as necessary!
 
+## Bearcat Enigma
+::::::cols
+::::col
+- Add code to:
+  - `is_key_pressed`
+  - `is_lamp_on`
+  - and `get_rotor_letter`
+  so that the image to the right is replicated on your screen
+- Note that you may need to click any key initially to cause an update to happen.
+::::
 
+::::col
+![](./images/enigma_target.png)
+
+::::
+::::::
+
+## Possible Solution
+```{.mypython style='font-size:.7em; max-height:800px'}
+def is_key_down(self, letter):
+    """Checks if a particular key is down
+
+    Args:
+        letter (str): the letter of the key to check
+    Returns:
+        (bool): true if the key is down
+    """
+    if letter in "BEAR":
+        return True
+    else:
+        return False
+
+def is_lamp_on(self, letter):
+    """Checks if a particular lamp is on
+
+    Args:
+        letter (str): the letter of the lamp to check
+    Returns:
+        (bool): true if the lamp is on
+    """
+    if letter in "WU":
+        return True
+    else:
+        return False
+
+def get_rotor_letter(self, index):
+    """Gets the letter corresponding to a given rotor's current offset
+
+    Args:
+        index (int): the index of the rotor to query (0 for slow, 2 for fast)
+    Returns:
+        (str): the letter corresponding to the desired rotor's offset
+    """
+    return "CAT"[index]
+```

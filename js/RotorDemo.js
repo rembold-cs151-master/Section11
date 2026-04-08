@@ -9,9 +9,10 @@
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 const PERMUTATION = "EKMFLGDQVZNTOWYHXUSPAIBRCJ";
-const BG_COLOR = "#272822";
-const FG_COLOR = "#A6E22E";
-const CONTACT_COLOR = "#888888";
+const OFFSETS = [4,9,10,2,7,1,23,9,13,16,3,8,2,9,10,18,7,3,0,22,6,13,5,20,4,10]
+const BG_COLOR = "#1e1e2e";
+const FG_COLOR = "#a6e3a1";
+const CONTACT_COLOR = "#9399b2";
 const WHEEL_LABEL_FONT = "36px 'Helvetica Neue','Sans-Serif'";
 const STRIP_LABEL_FONT = "24px 'Helvetica Neue','Sans-Serif'";
 
@@ -37,6 +38,8 @@ const INACTIVE_LINEWIDTH = 1 * SF;
 const ACTIVE_LINEWIDTH = 2.5 * SF;
 const TIME_STEP = 40;
 const TIME_DIVISIONS = 16;
+
+const OFFSET_SPACING_DX = 150;
 
 const COLORS = [ "red", "blue" ];
 const N_COLORS = COLORS.length;
@@ -69,6 +72,7 @@ function RotorDemo() {
     let leftContacts = null;
     let rightContacts = null;
     let wires = null;
+    let offset_labels = [];
     reset();
 
     function reset() {
@@ -76,6 +80,7 @@ function RotorDemo() {
         gw.add(bg);
         initWheel();
         initStrip();
+        initoffsets();
         gw.repaint();
     }
 
@@ -96,6 +101,22 @@ function RotorDemo() {
             let theta = GMath.toRadians(90 + i * 360 / 26);
             gw.add(frame, WHEEL_X + r * Math.cos(theta),
                           WHEEL_Y - r * Math.sin(theta));
+        }
+    }
+
+    function initoffsets() {
+        let height = 26 * CONTACT_HEIGHT + 25 * CONTACT_SEP +
+                     2 * CONTACT_MARGIN;
+        for (let i = 0; i < 26; i++) {
+            let ysrc = y0 + i * (CONTACT_HEIGHT + CONTACT_SEP);
+            let label = GLabel("" + OFFSETS[i]);
+            label.setFont(STRIP_LABEL_FONT);
+            label.setColor('#fab387')
+            let lx = x0 + STRIP_WIDTH + CONTACT_WIDTH + STRIP_RIGHT_DX + OFFSET_SPACING_DX - label.getWidth() / 2;
+            //let lx = x0 - CONTACT_WIDTH + STRIP_LEFT_DX - label.getWidth();
+            let ly = ysrc + CONTACT_HEIGHT / 2 + label.getAscent() / 2 - 1;
+            gw.add(label, lx, ly);
+            offset_labels.push(label)
         }
     }
 
@@ -208,12 +229,34 @@ function RotorDemo() {
             steps--;
             stepWheel();
             stepStrip();
+            stepOffsets();
             gw.repaint();
         }
     }
 
     function stepWheel() {
         wheel.rotate(-360 / (26 * TIME_DIVISIONS));
+    }
+
+    function stepOffsets() {
+        let flip = Math.floor(TIME_DIVISIONS / 2);
+        let dy = (CONTACT_HEIGHT + CONTACT_SEP) / TIME_DIVISIONS;
+        let wdy = CONTACT_HEIGHT / 2;
+        //if (steps === flip) {
+            //offset = (offset + 1) % 26;
+        //}
+        for (let i = 0; i < 26; i++) {
+            offset_labels[i].setLocation(offset_labels[i].getX(),
+                                         getYForIndex(i));
+        }
+
+        function getYForIndex(index) {
+            index = (index + 26 - offset) % 26;
+            let y = y0 + index * (CONTACT_HEIGHT + CONTACT_SEP) + CONTACT_HEIGHT;
+            y -= (TIME_DIVISIONS - steps) * dy;
+            if (steps <= flip) y += (CONTACT_HEIGHT + CONTACT_SEP);
+            return y;
+        }
     }
 
 /*

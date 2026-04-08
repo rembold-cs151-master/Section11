@@ -43,12 +43,14 @@ function RotorQuestions() {
     let rightContacts = null;
     let wires = null;
     let offset_label = null;
+    let offset_labels = [];
     reset();
 
     function reset() {
         gw.clear();
         gw.add(bg);
         initStrip();
+        initoffsets();
         gw.repaint();
     }
 
@@ -107,12 +109,28 @@ function RotorQuestions() {
         let frame = GRect(x0, RotorQuestions.STRIP_Y, RotorQuestions.STRIP_WIDTH, height);
         //gw.add(frame);
 
-        offset_label = GLabel("Offset: " + offset);
+        offset_label = GLabel("Progress: " + offset);
         offset_label.setFont(RotorQuestions.STRIP_LABEL_FONT);
         offset_label.setColor("white");
         let lx = x0 + RotorQuestions.STRIP_WIDTH / 2 - offset_label.getWidth() / 2;
         let ly = RotorQuestions.STRIP_Y - RotorQuestions.CONTACT_MARGIN
         gw.add(offset_label, lx, ly);
+    }
+
+    function initoffsets() {
+        let height = 26 * RotorQuestions.CONTACT_HEIGHT + 25 * RotorQuestions.CONTACT_SEP +
+                     2 * RotorQuestions.CONTACT_MARGIN;
+        for (let i = 0; i < 26; i++) {
+            let ysrc = y0 + i * (RotorQuestions.CONTACT_HEIGHT + RotorQuestions.CONTACT_SEP);
+            let label = GLabel("" + RotorQuestions.OFFSETS[i]);
+            label.setFont(RotorQuestions.STRIP_LABEL_FONT);
+            label.setColor('#fab387')
+            let lx = x0 + RotorQuestions.STRIP_WIDTH + RotorQuestions.CONTACT_WIDTH + RotorQuestions.STRIP_RIGHT_DX + RotorQuestions.OFFSET_SPACING_DX - label.getWidth() / 2;
+            //let lx = x0 - CONTACT_WIDTH + STRIP_LEFT_DX - label.getWidth();
+            let ly = ysrc + RotorQuestions.CONTACT_HEIGHT / 2 + label.getAscent() / 2 - 1;
+            gw.add(label, lx, ly);
+            offset_labels.push(label)
+        }
     }
 
     function createContact(x, y, color) {
@@ -138,7 +156,7 @@ function RotorQuestions() {
     function rotorQuestion3() {
         highlightContact(9, false);
         steps = 3 * RotorQuestions.TIME_DIVISIONS;
-        highlight = 2;
+        highlight = 11;
         timer = setInterval(step, RotorQuestions.TIME_STEP);
         gw.repaint();
     }
@@ -164,6 +182,7 @@ function RotorQuestions() {
         } else {
             steps--;
             stepStrip();
+            stepOffsets();
             gw.repaint();
         }
     }
@@ -213,7 +232,7 @@ function RotorQuestions() {
             wires[i].setEndPoint(x0 + RotorQuestions.CONTACT_WIDTH,
                                  getYForIndex(target) + wdy);
         }
-        offset_label.setLabel("Offset: " + offset);
+        offset_label.setLabel("Progress: " + offset);
 
         function getYForIndex(index) {
             index = (index + 26 - offset) % 26;
@@ -224,18 +243,37 @@ function RotorQuestions() {
         }
     }
 
+    function stepOffsets() {
+        let flip = Math.floor(RotorQuestions.TIME_DIVISIONS / 2);
+        let dy = (RotorQuestions.CONTACT_HEIGHT + RotorQuestions.CONTACT_SEP) / RotorQuestions.TIME_DIVISIONS;
+        let wdy = RotorQuestions.CONTACT_HEIGHT / 2;
+        for (let i = 0; i < 26; i++) {
+            offset_labels[i].setLocation(offset_labels[i].getX(),
+                                         getYForIndex(i));
+        }
+
+        function getYForIndex(index) {
+            index = (index + 26 - offset) % 26;
+            let y = y0 + index * (RotorQuestions.CONTACT_HEIGHT + RotorQuestions.CONTACT_SEP) + RotorQuestions.CONTACT_HEIGHT;
+            y -= (RotorQuestions.TIME_DIVISIONS - steps) * dy;
+            if (steps <= flip) y += (RotorQuestions.CONTACT_HEIGHT + RotorQuestions.CONTACT_SEP);
+            return y;
+        }
+    }
+
 }
 
 RotorQuestions.ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 RotorQuestions.PERMUTATION = "EKMFLGDQVZNTOWYHXUSPAIBRCJ";
-RotorQuestions.BG_COLOR = "#272822";
-RotorQuestions.FG_COLOR = "#A6E22E";
-RotorQuestions.CONTACT_COLOR = "#888888";
+RotorQuestions.OFFSETS = [4,9,10,2,7,1,23,9,13,16,3,8,2,9,10,18,7,3,0,22,6,13,5,20,4,10]
+RotorQuestions.BG_COLOR = "#1e1e2e";
+RotorQuestions.FG_COLOR = "#a6e3a1";
+RotorQuestions.CONTACT_COLOR = "#9399b2";
 RotorQuestions.WHEEL_LABEL_FONT = "36px 'Helvetica Neue','Sans-Serif'";
 RotorQuestions.STRIP_LABEL_FONT = "24px 'Helvetica Neue','Sans-Serif'";
 
 RotorQuestions.SF = 1.45;
-RotorQuestions.GWINDOW_WIDTH = 180 * RotorQuestions.SF;
+RotorQuestions.GWINDOW_WIDTH = 250 * RotorQuestions.SF;
 RotorQuestions.GWINDOW_HEIGHT = 600 * RotorQuestions.SF;
 RotorQuestions.STRIP_X = 50 * RotorQuestions.SF;
 RotorQuestions.STRIP_Y = 40 * RotorQuestions.SF;
@@ -251,3 +289,4 @@ RotorQuestions.ACTIVE_LINEWIDTH = 2.5 * RotorQuestions.SF;
 RotorQuestions.TIME_STEP = 40;
 RotorQuestions.TIME_DIVISIONS = 16;
 RotorQuestions.initialized = false;
+RotorQuestions.OFFSET_SPACING_DX = 100;
