@@ -50,9 +50,8 @@
 </div>
 </section>
 
-<section class="slide level1">
-
-<h2 id="understanding-the-rotors">Understanding the Rotors</h2>
+<section id="understanding-the-rotors" class="slide level2">
+<h2>Understanding the Rotors</h2>
 <ul>
 <li>In our experience, one of the most difficult parts of the Enigma
 project is understanding how we represent the internal wiring in each
@@ -71,8 +70,10 @@ code to simulate that behavior</li>
 the easier it will be to write the necessary code</li>
 </ul></li>
 </ul>
-<h2 data-state="RotorDemo" id="visualizing-enigmas-rotors">Visualizing
-Enigma’s Rotors</h2>
+</section>
+<section id="visualizing-enigmas-rotors" class="slide level2"
+data-state="RotorDemo">
+<h2 data-state="RotorDemo">Visualizing Enigma’s Rotors</h2>
 <div id="RotorDemo">
 <canvas contenteditable="true" width="1485" height="810" style="border: none; overflow: hidden; outline-width: 0px; width: 1485px; height: 810px;">
 </canvas>
@@ -91,8 +92,10 @@ Enigma’s Rotors</h2>
 </tbody>
 </table>
 </td>
-<h2 data-state="RotorQuestions" id="problem-1-questions">Problem 1
-Questions</h2>
+</section>
+<section id="problem-1-questions" class="slide level2"
+data-state="RotorQuestions">
+<h2 data-state="RotorQuestions">Problem 1 Questions</h2>
 <table>
 <tbody style="border:none;">
 <tr>
@@ -135,7 +138,9 @@ Answer: 29 % 26 = 3 (<span class="hb">D</span>)
 </tr>
 </tbody>
 </table>
-<h2 id="problem-2">Problem 2</h2>
+</section>
+<section id="problem-2" class="slide level2">
+<h2>Problem 2</h2>
 <ul>
 <li>Letters-substitution ciphers like those implemented by each rotor
 require the sender and receiver to use different keys: one to encrypt
@@ -145,7 +150,9 @@ depending on what direction it approaches from.</li>
 <li>As such, it is necessary to be able to compute a list of reversed
 wiring offsets for signals traveling the other direction.</li>
 </ul>
-<h2 id="problem-2-visually">Problem 2 Visually</h2>
+</section>
+<section id="problem-2-visually" class="slide level2">
+<h2>Problem 2 Visually</h2>
 <p><?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
@@ -1703,96 +1710,118 @@ wiring offsets for signals traveling the other direction.</li>
   </g>
 </svg>
 </p>
-<h2 id="problem-2-solution">Problem 2 Solution</h2>
+</section>
+<section id="problem-2-solution" class="slide level2">
+<h2>Problem 2 Solution</h2>
 <ul>
-<li>One possible solution with some tests might look like: ```{.mypython
-style=‘max-height: 800px; font-size: .7em’} def
-invert_wiring_offsets(r2l_offsets): “““Inverts a list of wiring offsets
-for a rotor. Args: r2l_offsets (list[int]): the 26 element list of
-offsets for each contact Returns: (list[int]): the corresponding
-26-element reverse wiring offsets list”“” rev_offsets = [0] * 26 for i
-in range(26): # Negative offsets would be fine: rev_offsets[i] =
--r2l_offsets[i] # But if you want positive values: rev_offsets[i] =
--r2l_offsets[i] % 26 return rev_offsets</li>
+<li>One possible solution with some tests might look like:</li>
+</ul>
+<pre ><code class="mypython" style="max-height: 800px; font-size: .7em">def invert_wiring_offsets(r2l_offsets):
+    """Inverts a list of wiring offsets for a rotor.
+    Args:
+        r2l_offsets (list[int]): the 26 element list of offsets for each contact
+    Returns:
+        (list[int]): the corresponding 26-element reverse wiring offsets list
+    """
+    rev_offsets = [0] * 26
+    for i in range(26):
+        # Negative offsets would be fine:
+        rev_offsets[i] = -r2l_offsets[i]
+        # But if you want positive values:
+        rev_offsets[i] = -r2l_offsets[i] % 26
+    return rev_offsets
+
+# Unit test
+
+def test_invert_wiring_offsets():
+    """
+    Tests several R2L and resulting L2R wiring offset lists
+
+    Note that these tests will only work if you return positive offsets.
+    """
+    assert invert_wiring_offsets([0]*26) == [0]*26
+    wiring_offsets = [3,24,13,14,2,25,3,15,11,17,6,25,22,24,7,16,17,11,0,21,7,18,16,23,0,24]
+    rev_wiring_offsets = [23,2,13,12,24,1,23,11,15,9,20,1,4,2,19,10,9,15,0,5,19,8,10,3,0,2]
+    assert invert_wiring_offsets(wiring_offsets) == rev_wiring_offsets
+    assert invert_wiring_offsets(rev_wiring_offsets) == wiring_offsets
+
+# Startup code
+
+if __name__ == "__main__":
+    test_invert_wiring_offsets()
+</code></pre>
+</section>
+<section id="problem-3" class="slide level2">
+<h2>Problem 3</h2>
+<ul>
+<li>The Enigma Project follows the MCV Pattern</li>
+<li>The <em>View</em> and the <em>Controller</em> are both provided, and
+you add code to the <em>Model</em></li>
+<li>The view and the controller need ways to “talk” to the model, which
+are provided with particularly named methods</li>
+<li>For changes you make in your model to show up at all in the
+graphics, you need to make sure you implement or alter those methods as
+necessary!</li>
 </ul>
 </section>
-<section id="unit-test" class="slide level1">
-<h1>Unit test</h1>
-<p>def test_invert_wiring_offsets(): ““” Tests several R2L and resulting
-L2R wiring offset lists</p>
-<pre ><code >Note that these tests will only work if you return positive offsets.
-"""
-assert invert_wiring_offsets([0]*26) == [0]*26
-wiring_offsets = [3,24,13,14,2,25,3,15,11,17,6,25,22,24,7,16,17,11,0,21,7,18,16,23,0,24]
-rev_wiring_offsets = [23,2,13,12,24,1,23,11,15,9,20,1,4,2,19,10,9,15,0,5,19,8,10,3,0,2]
-assert invert_wiring_offsets(wiring_offsets) == rev_wiring_offsets
-assert invert_wiring_offsets(rev_wiring_offsets) == wiring_offsets</code></pre>
+<section id="bearcat-enigma" class="slide level2">
+<h2>Bearcat Enigma</h2>
+<div class="cols">
+<div class="col">
+<ul>
+<li>Add code to:
+<ul>
+<li><code class="python">is_key_pressed</code></li>
+<li><code class="python">is_lamp_on</code></li>
+<li>and <code class="python">get_rotor_letter</code> so that the image
+to the right is replicated on your screen</li>
+</ul></li>
+<li>Note that you may need to click any key initially to cause an update
+to happen.</li>
+</ul>
+</div>
+<div class="col">
+<p><img data-src="./images/enigma_target.png" /></p>
+</div>
+</div>
 </section>
-<section id="startup-code" class="slide level1">
-<h1>Startup code</h1>
-<p>if <strong>name</strong> == “<strong>main</strong>”:
-test_invert_wiring_offsets()</p>
-<pre ><code >
-## Problem 3
-- The Enigma Project follows the MCV Pattern
-- The _View_ and the _Controller_ are both provided, and you add code to the _Model_
-- The view and the controller need ways to "talk" to the model, which are provided with particularly named methods
-- For changes you make in your model to show up at all in the graphics, you need to make sure you implement or alter those methods as necessary!
+<section id="possible-solution" class="slide level2">
+<h2>Possible Solution</h2>
+<pre ><code class="mypython" style="font-size:.7em; max-height:800px">def is_key_down(self, letter):
+    """Checks if a particular key is down
 
-## Bearcat Enigma
-::::::cols
-::::col
-- Add code to:
-- `is_key_pressed`
-- `is_lamp_on`
-- and `get_rotor_letter`
-so that the image to the right is replicated on your screen
-- Note that you may need to click any key initially to cause an update to happen.
-::::
-
-::::col
-![](./images/enigma_target.png)
-
-::::
-::::::
-
-## Possible Solution
-```{.mypython style='font-size:.7em; max-height:800px'}
-def is_key_down(self, letter):
-  """Checks if a particular key is down
-
-  Args:
-      letter (str): the letter of the key to check
-  Returns:
-      (bool): true if the key is down
-  """
-  if letter in "BEAR":
-      return True
-  else:
-      return False
+    Args:
+        letter (str): the letter of the key to check
+    Returns:
+        (bool): true if the key is down
+    """
+    if letter in "BEAR":
+        return True
+    else:
+        return False
 
 def is_lamp_on(self, letter):
-  """Checks if a particular lamp is on
+    """Checks if a particular lamp is on
 
-  Args:
-      letter (str): the letter of the lamp to check
-  Returns:
-      (bool): true if the lamp is on
-  """
-  if letter in "WU":
-      return True
-  else:
-      return False
+    Args:
+        letter (str): the letter of the lamp to check
+    Returns:
+        (bool): true if the lamp is on
+    """
+    if letter in "WU":
+        return True
+    else:
+        return False
 
 def get_rotor_letter(self, index):
-  """Gets the letter corresponding to a given rotor's current offset
+    """Gets the letter corresponding to a given rotor's current offset
 
-  Args:
-      index (int): the index of the rotor to query (0 for slow, 2 for fast)
-  Returns:
-      (str): the letter corresponding to the desired rotor's offset
-  """
-  return "CAT"[index]</code></pre>
+    Args:
+        index (int): the index of the rotor to query (0 for slow, 2 for fast)
+    Returns:
+        (str): the letter corresponding to the desired rotor's offset
+    """
+    return "CAT"[index]</code></pre>
 </section>
     </div>
   </div>

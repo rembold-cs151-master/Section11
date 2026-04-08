@@ -100,7 +100,8 @@ the following questions:
 
 ## Problem 2 Solution
 - One possible solution with some tests might look like:
-  ```{.mypython style='max-height: 800px; font-size: .7em'}
+
+```{.mypython style='max-height: 800px; font-size: .7em'}
 def invert_wiring_offsets(r2l_offsets):
     """Inverts a list of wiring offsets for a rotor.
     Args:
