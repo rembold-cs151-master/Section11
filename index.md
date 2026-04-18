@@ -111,10 +111,11 @@ def invert_wiring_offsets(r2l_offsets):
     """
     rev_offsets = [0] * 26
     for i in range(26):
+        left_end = (i + r2l_offsets[i]) % 26
         # Negative offsets would be fine:
-        rev_offsets[i] = -r2l_offsets[i]
+        rev_offsets[left_end] = -r2l_offsets[i]
         # But if you want positive values:
-        rev_offsets[i] = -r2l_offsets[i] % 26
+        rev_offsets[left_end] = -r2l_offsets[i] % 26
     return rev_offsets
 
 # Unit test
@@ -127,7 +128,7 @@ def test_invert_wiring_offsets():
     """
     assert invert_wiring_offsets([0]*26) == [0]*26
     wiring_offsets = [3,24,13,14,2,25,3,15,11,17,6,25,22,24,7,16,17,11,0,21,7,18,16,23,0,24]
-    rev_wiring_offsets = [23,2,13,12,24,1,23,11,15,9,20,1,4,2,19,10,9,15,0,5,19,8,10,3,0,2]
+    rev_wiring_offsets = [9,19,15,23,1,10,24,9,4,23,1,2,10,8,5,13,20,12,0,15,3,19,11,2,0,2 ]
     assert invert_wiring_offsets(wiring_offsets) == rev_wiring_offsets
     assert invert_wiring_offsets(rev_wiring_offsets) == wiring_offsets
 
