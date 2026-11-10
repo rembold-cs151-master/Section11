@@ -42,7 +42,7 @@
 <section id="title-slide">
   <h1 class="title">Section 11: The Enigma Project</h1>
   <p class="author">Jed Rembold and Eric Roberts</p>
-  <p class="date">Week of April 6th</p>
+  <p class="date">Week of November 9th</p>
 <div class="titlelinks">
 <a title="Template Repo" href="https://github.com/rembold-cs151-master/Section11"><i class="fa-solid fa-folder-tree"></i></a>
 <a title="Template Zip"  href="https://github.com/rembold-cs151-master/Section11/zipball/master/"><i class="fa-solid fa-file-zipper"></i></a>
@@ -1796,10 +1796,7 @@ to happen.</li>
     Returns:
         (bool): true if the key is down
     """
-    if letter in "BEAR":
-        return True
-    else:
-        return False
+    return letter in "BEAR"
 
 def is_lamp_on(self, letter):
     """Checks if a particular lamp is on
@@ -1809,10 +1806,7 @@ def is_lamp_on(self, letter):
     Returns:
         (bool): true if the lamp is on
     """
-    if letter in "WU":
-        return True
-    else:
-        return False
+    return letter in "WU"
 
 def get_rotor_letter(self, index):
     """Gets the letter corresponding to a given rotor's current offset

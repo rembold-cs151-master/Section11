@@ -1,7 +1,7 @@
 ---
 title: "Section 11: The Enigma Project"
 author: Jed Rembold and Eric Roberts
-date: "Week of April 6th"
+date: "Week of November 9th"
 slideNumber: true
 theme: python_catppuccin
 highlightjs-theme: catppuccin-mocha
@@ -172,10 +172,7 @@ def is_key_down(self, letter):
     Returns:
         (bool): true if the key is down
     """
-    if letter in "BEAR":
-        return True
-    else:
-        return False
+    return letter in "BEAR"
 
 def is_lamp_on(self, letter):
     """Checks if a particular lamp is on
@@ -185,10 +182,7 @@ def is_lamp_on(self, letter):
     Returns:
         (bool): true if the lamp is on
     """
-    if letter in "WU":
-        return True
-    else:
-        return False
+    return letter in "WU"
 
 def get_rotor_letter(self, index):
     """Gets the letter corresponding to a given rotor's current offset
